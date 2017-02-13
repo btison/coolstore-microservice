@@ -175,8 +175,9 @@ function delete_projects() {
 
 # Create Infra Project
 function create_infra_project() {
-  echo_header "Creating infra project..."
+  echo_header "Creating CI/CD infra project..."
   oc new-project $PRJ_CI --display-name='CI/CD' --description='CI/CD Components (Jenkins, Gogs, etc)'
+  oc adm policy add-role-to-user admin $ARG_USERNAME -n $PRJ_CI
 
   if [ "$(oc whoami)" == 'system:admin' ] ; then
     oc annotate --overwrite namespace $PRJ_CI demo=$PRJ_LABEL
@@ -439,21 +440,18 @@ EOM
   fi
 }
 
-function set_permissions() {
+function set_project_permissions() {
   if [ "$(oc whoami)" != "$ARG_USERNAME" ] ; then
     oc adm policy add-role-to-user admin $ARG_USERNAME -n $PRJ_COOLSTORE_TEST
     oc adm policy add-role-to-user admin $ARG_USERNAME -n $PRJ_DEVELOPER
     oc adm policy add-role-to-user admin $ARG_USERNAME -n $PRJ_COOLSTORE_PROD
     oc adm policy add-role-to-user admin $ARG_USERNAME -n $PRJ_INVENTORY
-    oc adm policy add-role-to-user admin $ARG_USERNAME -n $PRJ_CI
   fi
 
   oc adm policy add-role-to-group admin system:serviceaccounts:$PRJ_CI -n $PRJ_COOLSTORE_TEST
   oc adm policy add-role-to-group admin system:serviceaccounts:$PRJ_CI -n $PRJ_DEVELOPER
   oc adm policy add-role-to-group admin system:serviceaccounts:$PRJ_CI -n $PRJ_COOLSTORE_PROD
   oc adm policy add-role-to-group admin system:serviceaccounts:$PRJ_CI -n $PRJ_INVENTORY
-
-  oc policy add-role-to-group admin system:serviceaccounts:ci-ssadeghi -n developer-ssadeghi
 }
 
 function verify_deployments() {
@@ -518,6 +516,7 @@ deploy_gogs
 deploy_nexus
 deploy_jenkins
 create_app_projects
+set_project_permissions
 add_inventory_template_to_projects
 wait_for_nexus_to_be_ready
 deploy_demo_guides
@@ -529,7 +528,7 @@ deploy_pipeline
 verify_deployments
 
 set_default_project
-set_permissions
+
 
 END=`date +%s`
 echo
