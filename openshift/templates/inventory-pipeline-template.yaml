@@ -47,7 +47,7 @@ objects:
             }
             openshiftTag(sourceStream: 'inventory', sourceTag: 'test', namespace: '${TEST_PROJECT}', destinationStream: 'inventory', destinationTag: "prod-${tag}", destinationNamespace: '${PROD_PROJECT}')
             sleep 10
-            openshiftVerifyDeployment(deploymentConfig: "inventory-${tag}", replicaCount: 1, verifyReplicaCount: true, namespace: '${PROD_PROJECT}')
+            openshiftVerifyDeployment(deploymentConfig: "inventory-${tag}", replicaCount: 1, verifyReplicaCount: true, waitTime: 3000000, namespace: '${PROD_PROJECT}')
 
             stage 'Smoke Tests in PROD (Not Live)'
             sleep 30
