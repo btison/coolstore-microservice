@@ -54,16 +54,16 @@ $ provision-demo.sh --maven-mirror-url http://nexus.repo.com/content/groups/publ
 Provision demo as ```system:admin``` for user ```john@mycompany.com```:
 ```
 $ oc login -u system:admin
-$ provision-demo.sh --master console.openshift.mycompany.com --user john@mycompany.com
+$ provision-demo.sh --user john@mycompany.com
 ```
 
 Delete on OpenShift Online/Dedicated:
 ```
-$ provision-demo.sh --master console.preview.openshift.com --project-suffix mydemo --delete
+$ provision-demo.sh --project-suffix mydemo --delete
 ```
 
 Delete user ```john@mycompany.com``` demo as ```system:admin```:
 ```
 $ oc login -u system:admin
-$ provision-demo.sh --master console.openshift.mycompany.com --user john@mycompany.com --delete
+$ provision-demo.sh --user john@mycompany.com --delete
 ```
