@@ -473,7 +473,7 @@ function deploy_demo_guides() {
   echo_header "Deploying Demo Guides"
 
   local _DEMO_CONTENT_URL="https://raw.githubusercontent.com/osevg/workshopper-content/stable"
-  local _DEMOS="$_DEMO_CONTENT_URL/demos/_demo-msa.yml,$_DEMO_CONTENT_URL/demos/_demo-agile-integration.yml"
+  local _DEMOS="$_DEMO_CONTENT_URL/demos/_demo-all.yml,$_DEMO_CONTENT_URL/demos/_demo-msa.yml,$_DEMO_CONTENT_URL/demos/_demo-agile-integration.yml,$_DEMO_CONTENT_URL/demos/_demo-cicd-eap.yml"
 
   oc new-app --name=guides jboss-eap70-openshift~https://github.com/osevg/workshopper.git#stable -n $PRJ_CI
   oc expose svc/guides -n $PRJ_CI
